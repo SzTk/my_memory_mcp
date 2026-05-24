@@ -1,0 +1,8 @@
+# Azure Functions 用依存パッケージ
+# Azure Functions ランタイム (Python 3.11) がこのファイルを読んでインストールする。
+# ローカル開発は pyproject.toml + uv を使うこと。
+
+azure-functions
+azure-data-tables>=12.5.0
+python-dotenv>=1.0.0
+mcp[cli]>=1.27.1

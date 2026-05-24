@@ -1,0 +1,20 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Azure credentials & local settings (never commit these)
+.env
+local.settings.json
+
+# Local memory file (use Azure Table Storage instead)
+memory.json
+
+# Claude Code session files
+.claude/
