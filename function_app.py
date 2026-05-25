@@ -390,8 +390,10 @@ def mcp_handler(req: func.HttpRequest) -> func.HttpResponse:
     logger.info("MCP method: %s", method)
 
     if method == "initialize":
+        client_version = params.get("protocolVersion", "2024-11-05")
+        logger.info("MCP initialize: client_version=%s", client_version)
         return _ok(req_id, {
-            "protocolVersion": "2025-11-25",
+            "protocolVersion": client_version,
             "capabilities": {"tools": {}},
             "serverInfo": {"name": "memory-mcp", "version": "0.2.0"},
             "instructions": (
