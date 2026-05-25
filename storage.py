@@ -27,3 +27,8 @@ class MemoryStorage(ABC):
     @abstractmethod
     def delete(self, key: str) -> dict[str, Any]:
         """指定 key のメモリを削除し、削除したエンティティを返す。"""
+
+    @abstractmethod
+    def rename(self, old_key: str, new_key: str) -> dict[str, Any]:
+        """old_key のメモリを new_key に改名し、改名後のエンティティを返す。
+        new_key が既に存在する場合は KeyError を送出する。"""

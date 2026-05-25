@@ -61,3 +61,12 @@ class LocalFileStorage(MemoryStorage):
         entity = memories.pop(key)
         self._save(memories)
         return entity
+
+    def rename(self, old_key: str, new_key: str) -> dict[str, Any]:
+        memories = self._load()
+        if new_key in memories:
+            raise KeyError(f"key already exists: {new_key}")
+        entity = memories.pop(old_key)
+        memories[new_key] = entity
+        self._save(memories)
+        return entity

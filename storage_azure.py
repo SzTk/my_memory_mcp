@@ -95,3 +95,23 @@ class AzureTableStorage(MemoryStorage):
         deleted = _entity_to_dict(entity)
         self._client.delete_entity(partition_key=_PARTITION_KEY, row_key=key)
         return deleted
+
+    def rename(self, old_key: str, new_key: str) -> dict[str, Any]:
+        # Azure Table Storage は RowKey を直接変更できないため、
+        # 新しいキーでエンティティを作成し、古いエンティティを削除する。
+        try:
+            self._client.get_entity(partition_key=_PARTITION_KEY, row_key=new_key)
+            raise KeyError(f"key already exists: {new_key}")
+        except ResourceNotFoundError:
+            pass  # new_key が存在しないことを確認
+        old_entity = self._client.get_entity(partition_key=_PARTITION_KEY, row_key=old_key)
+        new_entity = {
+            "PartitionKey": _PARTITION_KEY,
+            "RowKey": new_key,
+            "content": old_entity["content"],
+            "created_at": old_entity["created_at"],
+            "updated_at": old_entity["updated_at"],
+        }
+        self._client.upsert_entity(entity=new_entity, mode=UpdateMode.REPLACE)
+        self._client.delete_entity(partition_key=_PARTITION_KEY, row_key=old_key)
+        return _entity_to_dict(new_entity)

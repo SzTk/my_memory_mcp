@@ -15,6 +15,7 @@ local.settings.json
 
 # Local memory file (use Azure Table Storage instead)
 memory.json
+secret Google OAuth Client.txt
 
 # Claude Code session files
 .claude/
